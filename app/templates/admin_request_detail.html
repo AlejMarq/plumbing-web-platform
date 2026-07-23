@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}
+Request #{{ service_request.id }} | Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="admin-section">
+    <div class="admin-container">
+
+        <div class="admin-header">
+            <div>
+                <p class="section-label">Service Request</p>
+                <h1>Request #{{ service_request.id }}</h1>
+            </div>
+
+            <a
+                href="{{ url_for('main.admin_dashboard') }}"
+                class="secondary-button"
+            >
+                Back to Dashboard
+            </a>
+        </div>
+
+        <div class="request-detail-card">
+
+            <div class="detail-row">
+                <span>Customer</span>
+                <strong>{{ service_request.name }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Email</span>
+                <a href="mailto:{{ service_request.email }}">
+                    {{ service_request.email }}
+                </a>
+            </div>
+
+            <div class="detail-row">
+                <span>Phone</span>
+                <a href="tel:{{ service_request.phone }}">
+                    {{ service_request.phone }}
+                </a>
+            </div>
+
+            <div class="detail-row">
+                <span>Address</span>
+                <strong>{{ service_request.address }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Service</span>
+                <strong>{{ service_request.service_type }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Status</span>
+                <strong>{{ service_request.status }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Submitted</span>
+                <strong>
+                    {{ service_request.created_at.strftime("%B %d, %Y at %I:%M %p") }}
+                </strong>
+            </div>
+
+            <div class="detail-description">
+                <span>Description</span>
+                <p>{{ service_request.description }}</p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

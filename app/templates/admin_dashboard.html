@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Dashboard | The Go To Plumber
+{% endblock %}
+
+{% block content %}
+
+<section class="admin-section">
+    <div class="admin-container">
+
+        <div class="admin-header">
+            <div>
+                <p class="section-label">Staff Area</p>
+                <h1>Service Requests</h1>
+            </div>
+
+            <a
+                href="{{ url_for('main.admin_logout') }}"
+                class="secondary-button"
+            >
+                Logout
+            </a>
+        </div>
+
+        {% if service_requests %}
+
+            <div class="table-wrapper">
+                <table class="admin-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Service</th>
+                            <th>Status</th>
+                            <th>Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for request in service_requests %}
+
+                        <tr>
+
+                            <td>{{ request.id }}</td>
+
+                            <td>
+                                <strong>{{ request.name }}</strong><br>
+                                <span>{{ request.phone }}</span>
+                            </td>
+
+                            <td>
+                                {{ request.service_type }}
+                            </td>
+
+                            <td>
+                                <span class="status-badge">
+                                    {{ request.status }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {{ request.created_at.strftime("%b %d, %Y") }}
+                            </td>
+
+                            <td>
+                                <a
+                                    href="{{ url_for('main.admin_request_detail', request_id=request.id) }}"
+                                    class="table-link"
+                                >
+                                    View
+                                </a>
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+            </div>
+
+        {% else %}
+
+            <div class="empty-state">
+                <h2>No service requests yet</h2>
+                <p>
+                    New customer submissions will appear here.
+                </p>
+            </div>
+
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

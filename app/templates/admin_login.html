@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Login | The Go To Plumber
+{% endblock %}
+
+{% block content %}
+
+<section class="form-section">
+    <div class="form-container">
+
+        <p class="section-label">Admin Area</p>
+
+        <h1>Admin Login</h1>
+
+        <p class="form-intro">
+            Sign in to manage service requests.
+        </p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(class="form-control") }}
+
+                {% for error in form.username.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class="form-control") }}
+
+                {% for error in form.password.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            {{ form.submit(class="primary-button form-submit") }}
+        </form>
+
+    </div>
+</section>
+
+{% endblock %}
