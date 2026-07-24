@@ -1,7 +1,15 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField, StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length
 from wtforms import PasswordField
+
+from wtforms import (
+    StringField,
+    TextAreaField,
+    SelectField,
+    PasswordField,
+    SubmitField,
+    DateTimeLocalField
+)
 
 
 class ServiceRequestForm(FlaskForm):
@@ -60,3 +68,33 @@ class AdminLoginForm(FlaskForm):
     )
 
     submit = SubmitField("Log In")
+
+class UpdateRequestStatusForm(FlaskForm):
+    status = SelectField(
+        "Status",
+        choices=[
+            ("New", "New"),
+            ("Scheduled", "Scheduled"),
+            ("Completed", "Completed"),
+            ("Cancelled", "Cancelled")
+        ],
+        validators=[DataRequired()]
+    )
+
+    submit = SubmitField("Update Status")
+
+class ScheduleAppointmentForm(FlaskForm):
+    appointment_at = DateTimeLocalField(
+        "Appointment",
+        format="%Y-%m-%dT%H:%M",
+        validators=[DataRequired()]
+    )
+
+    submit = SubmitField("Save Appointment")
+
+class InternalNotesForm(FlaskForm):
+    internal_notes = TextAreaField(
+        "Internal Notes"
+    )
+
+    submit = SubmitField("Save Notes")

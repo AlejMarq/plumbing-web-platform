@@ -60,9 +60,25 @@ Request #{{ service_request.id }} | Admin
             </div>
 
             <div class="detail-row">
+                <span>Appointment</span>
+
+                {% if service_request.appointment_at %}
+                    <strong>
+                        {{ service_request.appointment_at.strftime(
+                            "%B %d, %Y at %I:%M %p"
+                        ) }}
+                    </strong>
+                {% else %}
+                    <strong>Not scheduled</strong>
+                {% endif %}
+            </div>
+
+            <div class="detail-row">
                 <span>Submitted</span>
                 <strong>
-                    {{ service_request.created_at.strftime("%B %d, %Y at %I:%M %p") }}
+                    {{ service_request.created_at.strftime(
+                        "%B %d, %Y at %I:%M %p"
+                    ) }}
                 </strong>
             </div>
 
@@ -72,6 +88,71 @@ Request #{{ service_request.id }} | Admin
             </div>
 
         </div>
+
+        <div class="status-update-card">
+            <h2>Update Status</h2>
+
+            <form method="POST">
+                {{ status_form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ status_form.status.label }}
+                    {{ status_form.status(class="form-control") }}
+
+                    {% for error in status_form.status.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                {{ status_form.submit(class="primary-button") }}
+            </form>
+        </div>
+
+        <div class="status-update-card">
+            <h2>Schedule Appointment</h2>
+
+            <form method="POST">
+                {{ appointment_form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ appointment_form.appointment_at.label }}
+
+                    {{ appointment_form.appointment_at(
+                        class="form-control"
+                    ) }}
+
+                    {% for error in appointment_form.appointment_at.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                {{ appointment_form.submit(class="primary-button") }}
+            </form>
+        </div>
+
+        <div class="status-update-card">
+    <h2>Internal Notes</h2>
+
+    <form method="POST">
+        {{ notes_form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ notes_form.internal_notes.label }}
+
+            {{ notes_form.internal_notes(
+                class="form-control",
+                rows="8",
+                placeholder="Add private notes about this request..."
+            ) }}
+
+            {% for error in notes_form.internal_notes.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        {{ notes_form.submit(class="primary-button") }}
+    </form>
+</div>
 
     </div>
 </section>

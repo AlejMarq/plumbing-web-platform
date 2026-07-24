@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Appointment Calendar{% endblock %}
+
+{% block content %}
+
+<section class="admin-calendar-page">
+
+    <div class="calendar-header">
+        <div>
+            <p class="eyebrow">Admin</p>
+            <h1>Appointment Calendar</h1>
+            <p>View scheduled plumbing appointments by month.</p>
+        </div>
+
+        <a href="{{ url_for('main.admin_dashboard') }}"
+           class="secondary-button">
+            Back to Dashboard
+        </a>
+    </div>
+
+    <div class="monthly-calendar">
+
+        <div class="monthly-calendar-header">
+
+            <a
+                href="{{ url_for(
+                    'main.admin_calendar',
+                    year=previous_year,
+                    month=previous_month
+                ) }}"
+                class="calendar-nav-button"
+            >
+                ← Previous
+            </a>
+
+            <h2>{{ month_name }} {{ year }}</h2>
+
+            <a
+                href="{{ url_for(
+                    'main.admin_calendar',
+                    year=next_year,
+                    month=next_month
+                ) }}"
+                class="calendar-nav-button"
+            >
+                Next →
+            </a>
+
+        </div>
+
+        <div class="calendar-grid calendar-weekdays">
+            <div>Sunday</div>
+            <div>Monday</div>
+            <div>Tuesday</div>
+            <div>Wednesday</div>
+            <div>Thursday</div>
+            <div>Friday</div>
+            <div>Saturday</div>
+        </div>
+
+        <div class="calendar-grid calendar-days">
+
+            {% for week in month_calendar %}
+
+                {% for day in week %}
+
+                    {% if day == 0 %}
+
+                        <div class="calendar-day empty-day"></div>
+
+                    {% else %}
+
+                        <div class="calendar-day
+                            {% if
+                                day == today.day
+                                and month_name == today.strftime('%B')
+                                and year == today.year
+                            %}
+                                today
+                            {% endif %}
+                        ">
+
+                            <div class="calendar-day-number">
+                                {{ day }}
+                            </div>
+
+                            <div class="calendar-appointments">
+
+                                {% for appointment in appointments_by_day.get(day, []) %}
+
+                                    <a
+                                        href="{{ url_for(
+                                            'main.admin_request_detail',
+                                            request_id=appointment.id
+                                        ) }}"
+                                        class="calendar-appointment"
+                                    >
+                                        <strong>
+                                            {{ appointment.appointment_at.strftime('%I:%M %p') }}
+                                        </strong>
+
+                                        <span>{{ appointment.name }}</span>
+
+                                        <small>
+                                            {{ appointment.service_type }}
+                                        </small>
+                                    </a>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

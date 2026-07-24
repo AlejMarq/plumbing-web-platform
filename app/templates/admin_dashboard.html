@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Admin Dashboard | The Go To Plumber
+Admin Dashboard
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@ Admin Dashboard | The Go To Plumber
 
         <div class="admin-header">
             <div>
-                <p class="section-label">Staff Area</p>
+                <p class="section-label">Admin</p>
                 <h1>Service Requests</h1>
             </div>
 
@@ -23,62 +23,129 @@ Admin Dashboard | The Go To Plumber
             </a>
         </div>
 
+        <div class="dashboard-stats">
+
+    <button
+        type="button"
+        class="stat-card filter-card"
+        data-status="New"
+    >
+        <span>New</span>
+        <strong>{{ new_requests }}</strong>
+    </button>
+
+    <button
+        type="button"
+        class="stat-card filter-card"
+        data-status="Scheduled"
+    >
+        <span>Scheduled</span>
+        <strong>{{ scheduled_requests }}</strong>
+    </button>
+
+    <button
+        type="button"
+        class="stat-card filter-card"
+        data-status="Completed"
+    >
+        <span>Completed</span>
+        <strong>{{ completed_requests }}</strong>
+    </button>
+
+    <button
+        type="button"
+        class="stat-card filter-card active"
+        data-status="All"
+    >
+        <span>Total</span>
+        <strong>{{ total_requests }}</strong>
+    </button>
+
+</div>
+
         {% if service_requests %}
 
-            <div class="table-wrapper">
+            <div class="table-container">
+
+                <div class="dashboard-search">
+    <input
+        type="text"
+        id="requestSearch"
+        placeholder="Search customer, email, or service..."
+    >
+</div>
+
                 <table class="admin-table">
 
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Customer</th>
                             <th>Service</th>
                             <th>Status</th>
                             <th>Submitted</th>
+                            <th>Appointment</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
 
                     <tbody>
-
                         {% for request in service_requests %}
+                            <tr
+                                data-status="{{ request.status }}"
+                                data-search="{{ (
+                                    request.name ~ ' ' ~
+                                    request.email ~ ' ' ~
+                                    request.service_type
+                                )|lower }}"
+                            >
 
-                        <tr>
+                                <td>
+                                    <strong>{{ request.name }}</strong>
+                                    <span class="table-subtext">
+                                        {{ request.email }}
+                                    </span>
+                                </td>
 
-                            <td>{{ request.id }}</td>
+                                <td>{{ request.service_type }}</td>
 
-                            <td>
-                                <strong>{{ request.name }}</strong><br>
-                                <span>{{ request.phone }}</span>
-                            </td>
+                                <td>
+                                    <span class="status-badge status-{{ request.status|lower }}">
+                                        {{ request.status }}
+                                    </span>
+                                </td>
 
-                            <td>
-                                {{ request.service_type }}
-                            </td>
+                                <td>
+                                    {{ request.created_at.strftime(
+                                        "%b %d, %Y"
+                                    ) }}
+                                </td>
 
-                            <td>
-                                <span class="status-badge">
-                                    {{ request.status }}
-                                </span>
-                            </td>
+                                <td>
+                                    {% if request.appointment_at %}
+                                        {{ request.appointment_at.strftime(
+                                            "%b %d, %Y at %I:%M %p"
+                                        ) }}
+                                    {% else %}
+                                        <span class="table-subtext">
+                                            Not scheduled
+                                        </span>
+                                    {% endif %}
+                                </td>
 
-                            <td>
-                                {{ request.created_at.strftime("%b %d, %Y") }}
-                            </td>
+                                <td>
+                                    <a
+                                        href="{{ url_for(
+                                            'main.admin_request_detail',
+                                            request_id=request.id
+                                        ) }}"
+                                        class="table-link"
+                                    >
+                                        View
+                                    </a>
+                                </td>
 
-                            <td>
-                                <a
-                                    href="{{ url_for('main.admin_request_detail', request_id=request.id) }}"
-                                    class="table-link"
-                                >
-                                    View
-                                </a>
-                            </td>
-
-                        </tr>
-
+                            </tr>
                         {% endfor %}
-
                     </tbody>
 
                 </table>
@@ -89,7 +156,7 @@ Admin Dashboard | The Go To Plumber
             <div class="empty-state">
                 <h2>No service requests yet</h2>
                 <p>
-                    New customer submissions will appear here.
+                    New customer requests will appear here.
                 </p>
             </div>
 
@@ -97,5 +164,50 @@ Admin Dashboard | The Go To Plumber
 
     </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const filterCards = document.querySelectorAll(".filter-card");
+    const requestRows = document.querySelectorAll(".admin-table tbody tr");
+    const searchInput = document.getElementById("requestSearch");
+
+    let selectedStatus = "All";
+
+    function filterRequests() {
+        const searchText = searchInput.value.toLowerCase().trim();
+
+        requestRows.forEach(row => {
+            const rowStatus = row.dataset.status;
+            const rowSearch = row.dataset.search || "";
+
+            const matchesStatus =
+                selectedStatus === "All" ||
+                rowStatus === selectedStatus;
+
+            const matchesSearch =
+                rowSearch.includes(searchText);
+
+            if (matchesStatus && matchesSearch) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    filterCards.forEach(card => {
+        card.addEventListener("click", () => {
+            selectedStatus = card.dataset.status;
+
+            filterCards.forEach(c => c.classList.remove("active"));
+            card.classList.add("active");
+
+            filterRequests();
+        });
+    });
+
+    searchInput.addEventListener("input", filterRequests);
+});
+</script>
 
 {% endblock %}

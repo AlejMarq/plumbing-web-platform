@@ -18,6 +18,8 @@ class ServiceRequest(db.Model):
 
     status = db.Column(db.String(30), nullable=False, default="New")
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    appointment_at = db.Column(db.DateTime, nullable=True)
+    internal_notes = db.Column(db.Text, nullable=True)
 
     def __repr__(self):
         return f"<ServiceRequest {self.id}: {self.name}>"
