@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.validators import DataRequired, Email, Length
-from wtforms import PasswordField
+from wtforms.validators import DataRequired, Email, Length, NumberRange, Optional
+from wtforms import PasswordField, DecimalField, TextAreaField, SubmitField
 
 from wtforms import (
     StringField,
@@ -98,3 +98,38 @@ class InternalNotesForm(FlaskForm):
     )
 
     submit = SubmitField("Save Notes")
+
+class EstimateForm(FlaskForm):
+    labor_cost = DecimalField(
+        "Labor Cost",
+        validators=[
+            DataRequired(),
+            NumberRange(min=0)
+        ],
+        places=2
+    )
+
+    parts_cost = DecimalField(
+        "Parts Cost",
+        validators=[
+            DataRequired(),
+            NumberRange(min=0)
+        ],
+        places=2
+    )
+
+    tax_amount = DecimalField(
+        "Tax Amount",
+        validators=[
+            DataRequired(),
+            NumberRange(min=0)
+        ],
+        places=2
+    )
+
+    notes = TextAreaField(
+        "Estimate Notes",
+        validators=[Optional()]
+    )
+
+    submit = SubmitField("Save Estimate")

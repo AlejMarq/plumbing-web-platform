@@ -154,7 +154,173 @@ Request #{{ service_request.id }} | Admin
     </form>
 </div>
 
+<div class="status-update-card estimate-card">
+
+    <div class="estimate-header">
+        <div>
+            <p class="section-label">Pricing</p>
+            <h2>Estimate</h2>
+        </div>
+
+        {% if service_request.estimate %}
+            <div class="estimate-total-display">
+                <span>Current Total</span>
+                <strong>
+                    ${{ "%.2f"|format(service_request.estimate.total) }}
+                </strong>
+            </div>
+        {% endif %}
     </div>
+
+    <form method="POST">
+        {{ estimate_form.hidden_tag() }}
+
+        <div class="estimate-line-item">
+            <div>
+                {{ estimate_form.labor_cost.label }}
+                <small>Labor and service charges</small>
+            </div>
+
+            <div class="currency-input">
+                <span>$</span>
+                {{ estimate_form.labor_cost(
+                    class="form-control",
+                    placeholder="0.00"
+                ) }}
+            </div>
+        </div>
+
+        {% for error in estimate_form.labor_cost.errors %}
+            <span class="form-error">{{ error }}</span>
+        {% endfor %}
+
+        <div class="estimate-line-item">
+            <div>
+                {{ estimate_form.parts_cost.label }}
+                <small>Materials and replacement parts</small>
+            </div>
+
+            <div class="currency-input">
+                <span>$</span>
+                {{ estimate_form.parts_cost(
+                    class="form-control",
+                    placeholder="0.00"
+                ) }}
+            </div>
+        </div>
+
+        {% for error in estimate_form.parts_cost.errors %}
+            <span class="form-error">{{ error }}</span>
+        {% endfor %}
+
+        <div class="estimate-line-item">
+            <div>
+                {{ estimate_form.tax_amount.label }}
+                <small>Applicable taxes</small>
+            </div>
+
+            <div class="currency-input">
+                <span>$</span>
+                {{ estimate_form.tax_amount(
+                    class="form-control",
+                    placeholder="0.00"
+                ) }}
+            </div>
+        </div>
+
+        {% for error in estimate_form.tax_amount.errors %}
+            <span class="form-error">{{ error }}</span>
+        {% endfor %}
+
+        <div class="estimate-total-row">
+            <span>Estimated Total</span>
+
+            <strong id="estimate-total">
+                {% if service_request.estimate %}
+                    ${{ "%.2f"|format(service_request.estimate.total) }}
+                {% else %}
+                    $0.00
+                {% endif %}
+            </strong>
+        </div>
+
+        <div class="form-group estimate-notes">
+            {{ estimate_form.notes.label }}
+
+            {{ estimate_form.notes(
+                class="form-control",
+                rows="5",
+                placeholder="Describe the work included in this estimate..."
+            ) }}
+
+            {% for error in estimate_form.notes.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="estimate-actions">
+
+    {{ estimate_form.submit(class="primary-button") }}
+
+    {% if service_request.estimate %}
+
+        <a
+            href="{{ url_for('main.generate_estimate_pdf', request_id=service_request.id) }}"
+            class="secondary-button"
+        >
+            Generate PDF
+        </a>
+
+        <form
+            method="POST"
+            action="{{ url_for('main.email_estimate', request_id=service_request.id) }}"
+            style="display:inline;"
+        >
+            <button
+                type="submit"
+                class="secondary-button"
+            >
+                Email Estimate
+            </button>
+        </form>
+
+    {% endif %}
+
+</div>
+
+    </form>
+
+</div>
+
+</div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const laborInput = document.getElementById("estimate-labor_cost");
+    const partsInput = document.getElementById("estimate-parts_cost");
+    const taxInput = document.getElementById("estimate-tax_amount");
+    const totalDisplay = document.getElementById("estimate-total");
+
+    function updateEstimateTotal() {
+        const labor = parseFloat(laborInput.value) || 0;
+        const parts = parseFloat(partsInput.value) || 0;
+        const tax = parseFloat(taxInput.value) || 0;
+
+        const total = labor + parts + tax;
+
+        totalDisplay.textContent = total.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD"
+        });
+    }
+
+    laborInput.addEventListener("input", updateEstimateTotal);
+    partsInput.addEventListener("input", updateEstimateTotal);
+    taxInput.addEventListener("input", updateEstimateTotal);
+
+    updateEstimateTotal();
+});
+</script>
 
 {% endblock %}

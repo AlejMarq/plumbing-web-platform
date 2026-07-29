@@ -24,6 +24,49 @@ class ServiceRequest(db.Model):
     def __repr__(self):
         return f"<ServiceRequest {self.id}: {self.name}>"
 
+class Estimate(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    service_request_id = db.Column(
+        db.Integer,
+        db.ForeignKey("service_request.id"),
+        nullable=False,
+        unique=True
+    )
+
+    labor_cost = db.Column(db.Numeric(10, 2), nullable=False, default=0)
+    parts_cost = db.Column(db.Numeric(10, 2), nullable=False, default=0)
+    tax_amount = db.Column(db.Numeric(10, 2), nullable=False, default=0)
+
+    notes = db.Column(db.Text, nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow
+    )
+
+    service_request = db.relationship(
+        "ServiceRequest",
+        backref=db.backref(
+            "estimate",
+            uselist=False,
+            cascade="all, delete-orphan"
+        )
+    )
+
+    @property
+    def total(self):
+        return (
+            self.labor_cost
+            + self.parts_cost
+            + self.tax_amount
+        )
+
+    def __repr__(self):
+        return f"<Estimate {self.id} for request {self.service_request_id}>"
+
 class Admin(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
 

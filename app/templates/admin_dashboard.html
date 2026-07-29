@@ -10,18 +10,29 @@ Admin Dashboard
     <div class="admin-container">
 
         <div class="admin-header">
-            <div>
-                <p class="section-label">Admin</p>
-                <h1>Service Requests</h1>
-            </div>
+    <div>
+        <p class="section-label">Admin</p>
+        <h1>Service Requests</h1>
+    </div>
 
-            <a
-                href="{{ url_for('main.admin_logout') }}"
-                class="secondary-button"
-            >
-                Logout
-            </a>
-        </div>
+    <div class="admin-header-actions">
+
+        <a
+            href="{{ url_for('main.admin_calendar') }}"
+            class="secondary-button"
+        >
+            Appointment Calendar
+        </a>
+
+        <a
+            href="{{ url_for('main.admin_logout') }}"
+            class="secondary-button"
+        >
+            Logout
+        </a>
+
+    </div>
+</div>
 
         <div class="dashboard-stats">
 
@@ -60,6 +71,72 @@ Admin Dashboard
         <span>Total</span>
         <strong>{{ total_requests }}</strong>
     </button>
+
+</div>
+
+<div class="upcoming-jobs-section">
+
+    <div class="upcoming-jobs-header">
+        <div>
+            <p class="section-label">Schedule</p>
+            <h2>Upcoming Jobs</h2>
+        </div>
+
+        <a
+            href="{{ url_for('main.admin_calendar') }}"
+            class="primary-button"
+        >
+            View Calendar
+        </a>
+    </div>
+
+    {% if upcoming_jobs %}
+
+        <div class="upcoming-jobs-list">
+
+            {% for job in upcoming_jobs %}
+
+                <a
+                    href="{{ url_for(
+                        'main.admin_request_detail',
+                        request_id=job.id
+                    ) }}"
+                    class="upcoming-job-card"
+                >
+
+                    <div class="upcoming-job-date">
+                        <strong>
+                            {{ job.appointment_at.strftime('%b %d') }}
+                        </strong>
+
+                        <span>
+                            {{ job.appointment_at.strftime('%I:%M %p') }}
+                        </span>
+                    </div>
+
+                    <div class="upcoming-job-details">
+                        <h3>{{ job.name }}</h3>
+                        <p>{{ job.service_type }}</p>
+                        <small>{{ job.address }}</small>
+                    </div>
+
+                    <span class="status-badge status-{{ job.status|lower }}">
+                        {{ job.status }}
+                    </span>
+
+                </a>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+            <p>No upcoming jobs are scheduled.</p>
+        </div>
+
+    {% endif %}
 
 </div>
 

@@ -94,7 +94,7 @@
                                             'main.admin_request_detail',
                                             request_id=appointment.id
                                         ) }}"
-                                        class="calendar-appointment"
+                                        class="calendar-appointment status-{{ appointment.status|lower }}"
                                     >
                                         <strong>
                                             {{ appointment.appointment_at.strftime('%I:%M %p') }}

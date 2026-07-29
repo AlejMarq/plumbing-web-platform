@@ -369,6 +369,12 @@ textarea.form-control {
     margin-bottom: 35px;
 }
 
+.admin-header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
 .admin-header h1 {
     font-size: clamp(2.2rem, 5vw, 4rem);
 }
@@ -866,4 +872,297 @@ textarea.form-control {
     .monthly-calendar-header {
         min-width: 850px;
     }
+}
+
+.calendar-appointment.status-new {
+    background: #e8f3fa;
+    border-left-color: #4594c4;
+}
+
+.calendar-appointment.status-scheduled {
+    background: #fff4d6;
+    border-left-color: #d89b00;
+}
+
+.calendar-appointment.status-completed {
+    background: #e4f6e8;
+    border-left-color: #2e8b57;
+}
+
+/* Upcoming Jobs */
+
+.upcoming-jobs-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.upcoming-jobs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.upcoming-jobs-header h2 {
+    margin: 0;
+    color: #163a5f;
+}
+
+.upcoming-jobs-list {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.upcoming-job-card {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    color: #1f2937;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.upcoming-job-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.upcoming-job-date {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-right: 1rem;
+    border-right: 1px solid #d9d9d9;
+}
+
+.upcoming-job-date strong {
+    color: #163a5f;
+    font-size: 1rem;
+}
+
+.upcoming-job-date span {
+    color: #4b5563;
+    font-size: 0.9rem;
+}
+
+.upcoming-job-details h3 {
+    margin: 0 0 0.25rem;
+    color: #163a5f;
+}
+
+.upcoming-job-details p {
+    margin: 0 0 0.2rem;
+    color: #374151;
+}
+
+.upcoming-job-details small {
+    color: #6b7280;
+}
+
+@media (max-width: 750px) {
+    .upcoming-jobs-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .upcoming-job-card {
+        grid-template-columns: 1fr;
+    }
+
+    .upcoming-job-date {
+        padding-right: 0;
+        padding-bottom: 0.75rem;
+        border-right: none;
+        border-bottom: 1px solid #d9d9d9;
+    }
+}
+
+/* Estimate Card */
+
+.estimate-card {
+    margin-top: 2rem;
+}
+
+.estimate-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.estimate-header h2 {
+    margin: 0.25rem 0 0;
+}
+
+.estimate-total-display {
+    min-width: 170px;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    text-align: right;
+}
+
+.estimate-total-display span {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    color: #b8b8b8;
+}
+
+.estimate-total-display strong {
+    font-size: 1.4rem;
+    color: #d4af37;
+}
+
+.estimate-line-item {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 220px;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #333;
+}
+
+.estimate-line-item label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 700;
+}
+
+.estimate-line-item small {
+    display: block;
+    color: #a8a8a8;
+}
+
+.currency-input {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background: #111;
+}
+
+.currency-input span {
+    padding: 0 0.9rem;
+    color: #d4af37;
+    font-weight: 700;
+}
+
+.currency-input .form-control {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-left: 1px solid #444;
+    border-radius: 0;
+}
+
+.currency-input .form-control:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.estimate-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.25rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    background: #111;
+}
+
+.estimate-total-row span {
+    font-weight: 700;
+}
+
+.estimate-total-row strong {
+    font-size: 1.5rem;
+    color: #d4af37;
+}
+
+.estimate-notes {
+    margin-top: 1.5rem;
+}
+
+.estimate-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 700px) {
+    .estimate-header {
+        flex-direction: column;
+    }
+
+    .estimate-total-display {
+        width: 100%;
+        text-align: left;
+    }
+
+    .estimate-line-item {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .estimate-actions {
+        justify-content: stretch;
+    }
+
+    .estimate-actions .primary-button {
+        width: 100%;
+    }
+}
+
+.estimate-card form {
+    display: block;
+}
+
+.estimate-card .estimate-line-item {
+    width: 100%;
+}
+
+.estimate-card .estimate-total-row {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.estimate-card .estimate-notes {
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.estimate-card .estimate-notes label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.estimate-card .estimate-notes textarea {
+    display: block;
+    width: 100%;
+    min-height: 130px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.estimate-card .estimate-actions {
+    width: 100%;
+    margin-top: 1rem;
 }

@@ -1,11 +1,14 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
 
 from app import db
-from app.models import Admin, ServiceRequest
+from app.models import Admin, ServiceRequest, Estimate
 from flask import request
 
 from flask_mail import Message
 from app import mail
+from flask import send_file
+from app.pdf_utils import create_estimate_pdf, send_estimate_email
+from flask import current_app
 
 import calendar
 from datetime import datetime
@@ -15,7 +18,8 @@ from app.forms import (
     AdminLoginForm,
     UpdateRequestStatusForm,
     ScheduleAppointmentForm,
-    InternalNotesForm
+    InternalNotesForm,
+    EstimateForm
 )
 
 from flask_login import (
@@ -140,13 +144,25 @@ def admin_dashboard():
         status="Completed"
     ).count()
 
+    upcoming_jobs = (
+        ServiceRequest.query
+        .filter(
+            ServiceRequest.appointment_at.isnot(None),
+            ServiceRequest.appointment_at >= datetime.now()
+        )
+        .order_by(ServiceRequest.appointment_at.asc())
+        .limit(5)
+        .all()
+    )
+
     return render_template(
         "admin_dashboard.html",
         service_requests=service_requests,
         total_requests=total_requests,
         new_requests=new_requests,
         scheduled_requests=scheduled_requests,
-        completed_requests=completed_requests
+        completed_requests=completed_requests,
+        upcoming_jobs=upcoming_jobs
     )
 
 @main.route("/admin/calendar")
@@ -230,6 +246,7 @@ def admin_request_detail(request_id):
     status_form = UpdateRequestStatusForm(prefix="status")
     appointment_form = ScheduleAppointmentForm(prefix="appointment")
     notes_form = InternalNotesForm(prefix="notes")
+    estimate_form = EstimateForm(prefix="estimate")
 
     if status_form.submit.data and status_form.validate_on_submit():
         previous_status = service_request.status
@@ -341,10 +358,110 @@ def admin_request_detail(request_id):
         appointment_form.appointment_at.data = service_request.appointment_at
         notes_form.internal_notes.data = service_request.internal_notes
 
+    if estimate_form.validate_on_submit():
+        estimate = service_request.estimate
+
+        if estimate is None:
+            estimate = Estimate(service_request=service_request)
+            db.session.add(estimate)
+
+        estimate.labor_cost = estimate_form.labor_cost.data
+        estimate.parts_cost = estimate_form.parts_cost.data
+        estimate.tax_amount = estimate_form.tax_amount.data
+        estimate.notes = estimate_form.notes.data
+
+        db.session.commit()
+
+        flash("Estimate saved successfully.", "success")
+
+        return redirect(
+            url_for(
+                "main.admin_request_detail",
+                request_id=service_request.id
+            )
+        )
+
+    if request.method == "GET" and service_request.estimate:
+        estimate_form.labor_cost.data = service_request.estimate.labor_cost
+        estimate_form.parts_cost.data = service_request.estimate.parts_cost
+        estimate_form.tax_amount.data = service_request.estimate.tax_amount
+        estimate_form.notes.data = service_request.estimate.notes
+
     return render_template(
         "admin_request_detail.html",
         service_request=service_request,
         status_form=status_form,
         appointment_form=appointment_form,
-        notes_form=notes_form
+        notes_form=notes_form,
+        estimate_form=estimate_form
+    )
+
+@main.route("/admin/requests/<int:request_id>/estimate/pdf")
+@login_required
+def generate_estimate_pdf(request_id):
+    service_request = ServiceRequest.query.get_or_404(request_id)
+
+    if service_request.estimate is None:
+        flash(
+            "Please save an estimate before generating a PDF.",
+            "warning"
+        )
+
+        return redirect(
+            url_for(
+                "main.admin_request_detail",
+                request_id=service_request.id
+            )
+        )
+
+    filepath = create_estimate_pdf(service_request)
+
+    return send_file(
+        filepath,
+        as_attachment=True,
+        download_name=f"estimate_{service_request.id}.pdf"
+    )
+
+@main.route("/admin/requests/<int:request_id>/estimate/email", methods=["POST"])
+@login_required
+def email_estimate(request_id):
+    service_request = ServiceRequest.query.get_or_404(request_id)
+
+    if service_request.estimate is None:
+        flash(
+            "Please save an estimate before emailing it.",
+            "warning"
+        )
+
+        return redirect(
+            url_for(
+                "main.admin_request_detail",
+                request_id=service_request.id
+            )
+        )
+
+    try:
+        send_estimate_email(service_request)
+
+        flash(
+            f"Estimate emailed successfully to {service_request.email}.",
+            "success"
+        )
+
+    except Exception as error:
+        current_app.logger.exception(
+            "Failed to email estimate for request %s",
+            service_request.id
+        )
+
+        flash(
+            f"Estimate could not be emailed: {error}",
+            "danger"
+        )
+
+    return redirect(
+        url_for(
+            "main.admin_request_detail",
+            request_id=service_request.id
+        )
     )
