@@ -1166,3 +1166,35 @@ textarea.form-control {
     width: 100%;
     margin-top: 1rem;
 }
+
+/* Global Flash Messages */
+
+.flash-container {
+    width: min(1200px, 92%);
+    margin: 1rem auto 0;
+}
+
+.alert {
+    padding: 1rem;
+    border: 1px solid;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    color: #b8f5c8;
+    background-color: #12351d;
+    border-color: #287a3d;
+}
+
+.alert-warning {
+    color: #ffe6a3;
+    background-color: #3d3210;
+    border-color: #8a711f;
+}
+
+.alert-danger,
+.alert-error {
+    color: #ffb8b8;
+    background-color: #3a1515;
+    border-color: #8c3030;
+}

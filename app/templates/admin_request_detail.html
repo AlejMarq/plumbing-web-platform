@@ -260,33 +260,54 @@ Request #{{ service_request.id }} | Admin
 
         <div class="estimate-actions">
 
-    {{ estimate_form.submit(class="primary-button") }}
+            {{ estimate_form.submit(class="primary-button") }}
 
-    {% if service_request.estimate %}
+            {% if service_request.estimate %}
 
-        <a
-            href="{{ url_for('main.generate_estimate_pdf', request_id=service_request.id) }}"
-            class="secondary-button"
-        >
-            Generate PDF
-        </a>
+                <a
+                    href="{{ url_for(
+                        'main.generate_estimate_pdf',
+                        request_id=service_request.id
+                    ) }}"
+                    class="secondary-button"
+                >
+                    Generate PDF
+                </a>
 
-        <form
-            method="POST"
-            action="{{ url_for('main.email_estimate', request_id=service_request.id) }}"
-            style="display:inline;"
-        >
-            <button
-                type="submit"
-                class="secondary-button"
-            >
-                Email Estimate
-            </button>
-        </form>
+                <button
+                    type="submit"
+                    formaction="{{ url_for(
+                        'main.email_estimate',
+                        request_id=service_request.id
+                    ) }}"
+                    formmethod="POST"
+                    class="secondary-button"
+                >
+                    Email Estimate
+                </button>
 
-    {% endif %}
+            {% if not service_request.invoice %}
+                <button
+                    type="submit"
+                    formaction="{{ url_for(
+                        'main.create_invoice',
+                        request_id=service_request.id
+                    ) }}"
+                    formmethod="POST"
+                    class="secondary-button"
+                >
+                    Create Invoice
+                </button>
+            {% else %}
+                <span>
+                    Invoice #{{ service_request.invoice.id }} —
+                    {{ service_request.invoice.status }}
+                </span>
+            {% endif %}
 
-</div>
+            {% endif %}
+
+        </div>
 
     </form>
 

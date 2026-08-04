@@ -12,6 +12,7 @@ from flask import current_app
 
 import calendar
 from datetime import datetime
+from app.models import Admin, Estimate, Invoice, ServiceRequest
 
 from app.forms import (
     ServiceRequestForm,
@@ -458,6 +459,66 @@ def email_estimate(request_id):
             f"Estimate could not be emailed: {error}",
             "danger"
         )
+
+    return redirect(
+        url_for(
+            "main.admin_request_detail",
+            request_id=service_request.id
+        )
+    )
+
+@main.route(
+    "/admin/requests/<int:request_id>/invoice/create",
+    methods=["POST"]
+)
+@login_required
+def create_invoice(request_id):
+    service_request = ServiceRequest.query.get_or_404(request_id)
+
+    if service_request.estimate is None:
+        flash(
+            "Please save an estimate before creating an invoice.",
+            "warning"
+        )
+
+        return redirect(
+            url_for(
+                "main.admin_request_detail",
+                request_id=service_request.id
+            )
+        )
+
+    if service_request.invoice is not None:
+        flash(
+            "An invoice already exists for this request.",
+            "warning"
+        )
+
+        return redirect(
+            url_for(
+                "main.admin_request_detail",
+                request_id=service_request.id
+            )
+        )
+
+    estimate = service_request.estimate
+
+    invoice = Invoice(
+        service_request=service_request,
+        labor_cost=estimate.labor_cost,
+        parts_cost=estimate.parts_cost,
+        tax_amount=estimate.tax_amount,
+        notes=estimate.notes,
+        status="Unpaid"
+    )
+
+    db.session.add(invoice)
+    db.session.commit()
+
+    flash(
+        "Invoice created successfully from the estimate.",
+        "success"
+    )
 
     return redirect(
         url_for(
