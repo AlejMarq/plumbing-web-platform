@@ -644,3 +644,59 @@ def contact():
 @main.route("/reviews")
 def reviews():
     return render_template("reviews.html")
+
+@main.route(
+    "/admin/requests/<int:request_id>/invoice/update-from-estimate",
+    methods=["POST"]
+)
+@login_required
+def update_invoice_from_estimate(request_id):
+    service_request = ServiceRequest.query.get_or_404(request_id)
+
+    if service_request.estimate is None:
+        flash(
+            "There is no saved estimate to copy from.",
+            "warning"
+        )
+
+        return redirect(
+            url_for(
+                "main.admin_request_detail",
+                request_id=service_request.id
+            )
+        )
+
+    if service_request.invoice is None:
+        flash(
+            "There is no invoice to update.",
+            "warning"
+        )
+
+        return redirect(
+            url_for(
+                "main.admin_request_detail",
+                request_id=service_request.id
+            )
+        )
+
+    estimate = service_request.estimate
+    invoice = service_request.invoice
+
+    invoice.labor_cost = estimate.labor_cost
+    invoice.parts_cost = estimate.parts_cost
+    invoice.tax_amount = estimate.tax_amount
+    invoice.notes = estimate.notes
+
+    db.session.commit()
+
+    flash(
+        "Invoice updated successfully from the latest estimate.",
+        "success"
+    )
+
+    return redirect(
+        url_for(
+            "main.invoice_detail",
+            invoice_id=invoice.id
+        )
+    )

@@ -60,6 +60,24 @@ Request #{{ service_request.id }} | Admin
             </div>
 
             <div class="detail-row">
+    <span>Invoice Status</span>
+
+    {% if service_request.invoice %}
+        <a
+            href="{{ url_for(
+                'main.invoice_detail',
+                invoice_id=service_request.invoice.id
+            ) }}"
+            class="status-badge status-{{ service_request.invoice.status|lower }}"
+        >
+            {{ service_request.invoice.status }}
+        </a>
+    {% else %}
+        <strong>No Invoice</strong>
+    {% endif %}
+</div>
+
+            <div class="detail-row">
                 <span>Appointment</span>
 
                 {% if service_request.appointment_at %}
@@ -300,17 +318,29 @@ Request #{{ service_request.id }} | Admin
                 </button>
             {% else %}
 
-                <a
-                    href="{{ url_for(
-                        'main.invoice_detail',
-                        invoice_id=service_request.invoice.id
-                    ) }}"
-                    class="secondary-button"
-                >
-                    View Invoice #{{ service_request.invoice.id }}
-                </a>
+    <a
+        href="{{ url_for(
+            'main.invoice_detail',
+            invoice_id=service_request.invoice.id
+        ) }}"
+        class="secondary-button"
+    >
+        View Invoice #{{ service_request.invoice.id }}
+    </a>
 
-            {% endif %}
+    <button
+        type="submit"
+        formaction="{{ url_for(
+            'main.update_invoice_from_estimate',
+            request_id=service_request.id
+        ) }}"
+        formmethod="POST"
+        class="secondary-button"
+    >
+        Update Invoice from Estimate
+    </button>
+
+{% endif %}
 
             {% endif %}
 
