@@ -7,8 +7,14 @@ from flask import request
 from flask_mail import Message
 from app import mail
 from flask import send_file
-from app.pdf_utils import create_estimate_pdf, send_estimate_email
 from flask import current_app
+
+from app.pdf_utils import (
+    create_estimate_pdf,
+    create_invoice_pdf,
+    send_estimate_email,
+    send_invoice_email,
+)
 
 import calendar
 from datetime import datetime
@@ -524,5 +530,97 @@ def create_invoice(request_id):
         url_for(
             "main.admin_request_detail",
             request_id=service_request.id
+        )
+    )
+
+@main.route("/admin/invoices/<int:invoice_id>")
+@login_required
+def invoice_detail(invoice_id):
+    invoice = Invoice.query.get_or_404(invoice_id)
+
+    return render_template(
+        "invoice_detail.html",
+        invoice=invoice
+    )
+
+@main.route("/admin/invoices/<int:invoice_id>/pdf")
+@login_required
+def generate_invoice_pdf(invoice_id):
+    invoice = Invoice.query.get_or_404(invoice_id)
+
+    filepath = create_invoice_pdf(invoice)
+
+    return send_file(
+        filepath,
+        as_attachment=True,
+        download_name=f"invoice_{invoice.id}.pdf"
+    )
+
+@main.route(
+    "/admin/invoices/<int:invoice_id>/email",
+    methods=["POST"]
+)
+@login_required
+def email_invoice(invoice_id):
+    invoice = Invoice.query.get_or_404(invoice_id)
+
+    try:
+        send_invoice_email(invoice)
+
+        flash(
+            f"Invoice emailed successfully to "
+            f"{invoice.service_request.email}.",
+            "success"
+        )
+
+    except Exception as error:
+        current_app.logger.exception(
+            "Failed to email invoice %s",
+            invoice.id
+        )
+
+        flash(
+            f"Invoice could not be emailed: {error}",
+            "danger"
+        )
+
+    return redirect(
+        url_for(
+            "main.invoice_detail",
+            invoice_id=invoice.id
+        )
+    )
+
+@main.route(
+    "/admin/invoices/<int:invoice_id>/toggle-paid",
+    methods=["POST"]
+)
+@login_required
+def toggle_invoice_paid(invoice_id):
+    invoice = Invoice.query.get_or_404(invoice_id)
+
+    if invoice.status == "Paid":
+        invoice.status = "Unpaid"
+        invoice.paid_at = None
+
+        flash(
+            "Invoice marked as unpaid.",
+            "success"
+        )
+    else:
+        invoice.status = "Paid"
+        invoice.paid_at = datetime.utcnow()
+
+        flash(
+            "Invoice marked as paid.",
+            "success"
+        )
+
+    db.session.commit()
+
+    return redirect(
+        url_for(
+            "main.invoice_detail",
+            invoice_id=invoice.id
         )
     )

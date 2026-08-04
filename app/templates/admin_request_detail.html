@@ -299,10 +299,17 @@ Request #{{ service_request.id }} | Admin
                     Create Invoice
                 </button>
             {% else %}
-                <span>
-                    Invoice #{{ service_request.invoice.id }} —
-                    {{ service_request.invoice.status }}
-                </span>
+
+                <a
+                    href="{{ url_for(
+                        'main.invoice_detail',
+                        invoice_id=service_request.invoice.id
+                    ) }}"
+                    class="secondary-button"
+                >
+                    View Invoice #{{ service_request.invoice.id }}
+                </a>
+
             {% endif %}
 
             {% endif %}

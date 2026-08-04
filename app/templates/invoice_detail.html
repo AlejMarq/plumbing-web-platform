@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}
+Invoice #{{ invoice.id }} | Admin
+{% endblock %}
+
+{% block content %}
+
+<section class="admin-section invoice-page">
+    <div class="admin-container">
+
+        <div class="admin-header">
+            <div>
+                <p class="section-label">Invoice</p>
+                <h1>Invoice #{{ invoice.id }}</h1>
+            </div>
+
+            <div class="admin-header-actions">
+
+    <div class="admin-header-actions">
+
+    <a
+        href="{{ url_for(
+            'main.generate_invoice_pdf',
+            invoice_id=invoice.id
+        ) }}"
+        class="primary-button"
+    >
+        Generate Invoice PDF
+    </a>
+
+    <form
+        method="POST"
+        action="{{ url_for(
+            'main.email_invoice',
+            invoice_id=invoice.id
+        ) }}"
+    >
+        <button
+            type="submit"
+            class="secondary-button"
+        >
+            Email Invoice
+        </button>
+    </form>
+
+    <a
+        href="{{ url_for(
+            'main.admin_request_detail',
+            request_id=invoice.service_request.id
+        ) }}"
+        class="secondary-button"
+    >
+        Back to Request
+    </a>
+
+</div>
+        </div>
+
+        <div class="request-detail-card">
+
+            <div class="detail-row">
+                <span>Customer</span>
+                <strong>{{ invoice.service_request.name }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Email</span>
+                <a href="mailto:{{ invoice.service_request.email }}">
+                    {{ invoice.service_request.email }}
+                </a>
+            </div>
+
+            <div class="detail-row">
+                <span>Phone</span>
+                <a href="tel:{{ invoice.service_request.phone }}">
+                    {{ invoice.service_request.phone }}
+                </a>
+            </div>
+
+            <div class="detail-row">
+                <span>Address</span>
+                <strong>{{ invoice.service_request.address }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Service</span>
+                <strong>{{ invoice.service_request.service_type }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Status</span>
+                <strong>{{ invoice.status }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Created</span>
+                <strong>
+                    {{ invoice.created_at.strftime(
+                        "%B %d, %Y at %I:%M %p"
+                    ) }}
+                </strong>
+            </div>
+
+            {% if invoice.paid_at %}
+                <div class="detail-row">
+                    <span>Paid</span>
+                    <strong>
+                        {{ invoice.paid_at.strftime(
+                            "%B %d, %Y at %I:%M %p"
+                        ) }}
+                    </strong>
+                </div>
+            {% endif %}
+
+        </div>
+
+        <div class="status-update-card">
+
+            <h2>Invoice Amounts</h2>
+
+            <div class="detail-row">
+                <span>Labor</span>
+                <strong>${{ "%.2f"|format(invoice.labor_cost) }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Parts</span>
+                <strong>${{ "%.2f"|format(invoice.parts_cost) }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Tax</span>
+                <strong>${{ "%.2f"|format(invoice.tax_amount) }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Total</span>
+                <strong>${{ "%.2f"|format(invoice.total) }}</strong>
+            </div>
+
+            {% if invoice.notes %}
+                <div class="detail-description">
+                    <span>Notes</span>
+                    <p>{{ invoice.notes }}</p>
+                </div>
+            {% endif %}
+
+        </div>
+
+        <div class="status-update-card">
+
+    <h2>Payment Status</h2>
+
+    <p>
+        Current status:
+        <strong>{{ invoice.status }}</strong>
+    </p>
+
+    <form
+        method="POST"
+        action="{{ url_for(
+            'main.toggle_invoice_paid',
+            invoice_id=invoice.id
+        ) }}"
+    >
+        {% if invoice.status == "Paid" %}
+            <button
+                type="submit"
+                class="secondary-button"
+            >
+                Mark Unpaid
+            </button>
+        {% else %}
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Mark Paid
+            </button>
+        {% endif %}
+    </form>
+
+</div>
+
+    </div>
+</section>
+
+{% endblock %}

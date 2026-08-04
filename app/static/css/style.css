@@ -1198,3 +1198,48 @@ textarea.form-control {
     background-color: #3a1515;
     border-color: #8c3030;
 }
+
+.admin-header-actions form {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.admin-header-actions button,
+.admin-header-actions a {
+    width: auto;
+}
+
+.invoice-page .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.invoice-page .admin-header-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.invoice-page .admin-header-actions form {
+    display: inline-block;
+    width: auto;
+    margin: 0;
+}
+
+.invoice-page .admin-header-actions a,
+.invoice-page .admin-header-actions button {
+    width: auto;
+    white-space: nowrap;
+}
