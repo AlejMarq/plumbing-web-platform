@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}
+About | The Go To Plumber
+{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="page-container">
+
+        <div class="page-heading">
+
+            <p class="section-label">
+                About Us
+            </p>
+
+            <h1>
+                Reliable Plumbing You Can Count On
+            </h1>
+
+            <p>
+                The Go To Plumber is committed to providing dependable
+                plumbing solutions with honest communication,
+                quality workmanship, and outstanding customer service.
+            </p>
+
+        </div>
+
+        <div class="service-card">
+
+            <h2>
+                Our Commitment
+            </h2>
+
+            <p>
+                Every plumbing project is different, but our goal is
+                always the same: provide dependable service,
+                clear communication, and lasting results.
+
+                Whether it's a routine repair, a new installation,
+                or an unexpected plumbing issue,
+                we take pride in doing the job right.
+            </p>
+
+        </div>
+
+        <div class="page-cta">
+
+            <div>
+
+                <p class="section-label">
+                    Need Plumbing Service?
+                </p>
+
+                <h2>
+                    We're Ready to Help
+                </h2>
+
+                <p>
+                    Contact us today to schedule your service
+                    or request an estimate.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('main.request_service') }}"
+                class="primary-button"
+            >
+                Request Service
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

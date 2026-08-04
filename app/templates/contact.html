@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}
+Contact | The Go To Plumber
+{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="page-container">
+
+        <div class="page-heading">
+            <p class="section-label">Contact Us</p>
+
+            <h1>Get in Touch</h1>
+
+            <p>
+                This demo contact information can be replaced with the
+                plumbing company’s real phone number, email address,
+                and business hours after customization.
+            </p>
+        </div>
+
+        <div class="services-grid">
+
+            <article class="service-card">
+                <h2>Phone</h2>
+
+                <p>
+                    <a href="tel:+15555555555">
+                        (555) 555-5555
+                    </a>
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Email</h2>
+
+                <p>
+                    <a href="mailto:contact@example.com">
+                        contact@example.com
+                    </a>
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Business Hours</h2>
+
+                <p>
+                    Monday–Friday<br>
+                    8:00 AM–5:00 PM
+                </p>
+            </article>
+
+        </div>
+
+        <div class="page-cta">
+            <div>
+                <p class="section-label">Need Plumbing Service?</p>
+
+                <h2>Submit a Service Request</h2>
+
+                <p>
+                    Tell us about the issue and provide your contact
+                    details so we can follow up.
+                </p>
+            </div>
+
+            <a
+                href="{{ url_for('main.request_service') }}"
+                class="primary-button"
+            >
+                Request Service
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

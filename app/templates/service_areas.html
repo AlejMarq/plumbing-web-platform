@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}
+Service Areas | The Go To Plumber
+{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="page-container">
+
+        <div class="page-heading">
+
+            <p class="section-label">
+                Service Areas
+            </p>
+
+            <h1>
+                Proudly Serving Local Communities
+            </h1>
+
+            <p>
+                This demonstration website can easily be customized
+                to match the service area of any plumbing company.
+            </p>
+
+        </div>
+
+        <div class="services-grid">
+
+            <article class="service-card">
+                <h2>Residential Plumbing</h2>
+
+                <p>
+                    Service available throughout local neighborhoods
+                    and surrounding communities.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Commercial Plumbing</h2>
+
+                <p>
+                    Plumbing solutions for offices,
+                    retail spaces, restaurants,
+                    and commercial properties.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Nearby Cities</h2>
+
+                <p>
+                    Coverage areas can be customized
+                    to fit the plumbing company's
+                    preferred service radius.
+                </p>
+            </article>
+
+        </div>
+
+        <div class="page-cta">
+
+            <div>
+
+                <p class="section-label">
+                    Not Sure If You're In Our Area?
+                </p>
+
+                <h2>
+                    Contact Us Today
+                </h2>
+
+                <p>
+                    We'll gladly let you know if
+                    we service your location.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('main.request_service') }}"
+                class="primary-button"
+            >
+                Request Service
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

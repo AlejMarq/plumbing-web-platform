@@ -624,3 +624,23 @@ def toggle_invoice_paid(invoice_id):
             invoice_id=invoice.id
         )
     )
+
+@main.route("/services")
+def services():
+    return render_template("services.html")
+
+@main.route("/about")
+def about():
+    return render_template("about.html")
+
+@main.route("/service-areas")
+def service_areas():
+    return render_template("service_areas.html")
+
+@main.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+@main.route("/reviews")
+def reviews():
+    return render_template("reviews.html")

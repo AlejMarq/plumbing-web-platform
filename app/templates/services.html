@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}
+Services | The Go To Plumber
+{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="page-container">
+
+        <div class="page-heading">
+            <p class="section-label">What We Do</p>
+            <h1>Professional Plumbing Services</h1>
+
+            <p>
+                Reliable plumbing solutions for repairs, installations,
+                maintenance, and unexpected plumbing problems.
+            </p>
+        </div>
+
+        <div class="services-grid">
+
+            <article class="service-card">
+                <h2>Drain Cleaning</h2>
+                <p>
+                    Clear clogged sinks, tubs, toilets, and drain lines
+                    to help restore proper water flow.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Water Heater Services</h2>
+                <p>
+                    Water heater repair, replacement, maintenance,
+                    and new installation services.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Leak Detection</h2>
+                <p>
+                    Locate and repair visible or hidden plumbing leaks
+                    before they lead to additional damage.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Pipe Repair</h2>
+                <p>
+                    Repair damaged, leaking, frozen, or worn plumbing
+                    pipes throughout the property.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Fixture Installation</h2>
+                <p>
+                    Installation and replacement of faucets, sinks,
+                    toilets, showers, and other plumbing fixtures.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Emergency Plumbing</h2>
+                <p>
+                    Prompt assistance for urgent plumbing issues that
+                    require immediate attention.
+                </p>
+            </article>
+
+        </div>
+
+        <div class="page-cta">
+            <div>
+                <p class="section-label">Need Plumbing Help?</p>
+                <h2>Request Service Today</h2>
+                <p>
+                    Tell us about the issue and we will contact you
+                    to discuss the next steps.
+                </p>
+            </div>
+
+            <a
+                href="{{ url_for('main.request_service') }}"
+                class="primary-button"
+            >
+                Request Service
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

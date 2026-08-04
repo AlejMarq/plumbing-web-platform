@@ -1243,3 +1243,88 @@ textarea.form-control {
     width: auto;
     white-space: nowrap;
 }
+
+/* ---------- Generic Public Pages ---------- */
+
+.page-section {
+    padding: 4rem 0;
+}
+
+.page-container {
+    width: min(1200px, 92%);
+    margin: 0 auto;
+}
+
+.page-heading {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.page-heading p {
+    max-width: 700px;
+    margin: 1rem auto 0;
+}
+
+/* ---------- Services ---------- */
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.service-card {
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 14px;
+    padding: 2rem;
+    color: #374151;
+    transition: 0.25s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0,0,0,.12);
+}
+
+.service-card h2 {
+    margin-bottom: 1rem;
+    color: #163a5f;
+}
+
+.service-card p {
+    margin: 0;
+    line-height: 1.7;
+    color: #374151;
+}
+
+/* ---------- CTA ---------- */
+
+.page-cta {
+    margin-top: 4rem;
+    padding: 2.5rem;
+    border-radius: 14px;
+    background: #163a5f;
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.page-cta h2,
+.page-cta p,
+.page-cta .section-label {
+    color: white;
+}
+
+@media (max-width: 768px) {
+
+    .page-cta {
+        flex-direction: column;
+        text-align: center;
+    }
+
+}

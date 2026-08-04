@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reviews | The Go To Plumber
+{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="page-container">
+
+        <div class="page-heading">
+            <p class="section-label">Customer Feedback</p>
+
+            <h1>What Customers Are Saying</h1>
+
+            <p>
+                The reviews shown below are demonstration placeholders.
+                Real customer reviews can be added or connected after
+                the website is customized for the business.
+            </p>
+        </div>
+
+        <div class="services-grid">
+
+            <article class="service-card">
+                <h2>Review Example</h2>
+
+                <p>
+                    “Professional, dependable, and easy to communicate
+                    with throughout the service process.”
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Review Example</h2>
+
+                <p>
+                    “The plumbing issue was explained clearly and the
+                    work was completed with care.”
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Review Example</h2>
+
+                <p>
+                    “Scheduling was simple, service was prompt, and the
+                    overall experience was excellent.”
+                </p>
+            </article>
+
+        </div>
+
+        <div class="page-cta">
+            <div>
+                <p class="section-label">Need Plumbing Service?</p>
+                <h2>Request Service Today</h2>
+            </div>
+
+            <a
+                href="{{ url_for('main.request_service') }}"
+                class="primary-button"
+            >
+                Request Service
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
