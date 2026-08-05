@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-About | The Go To Plumber
+About | The Go-To Plumber
 {% endblock %}
 
 {% block content %}
@@ -12,36 +12,108 @@ About | The Go To Plumber
         <div class="page-heading">
 
             <p class="section-label">
-                About Us
+                Meet Our Family
             </p>
 
             <h1>
-                Reliable Plumbing You Can Count On
+                A Family-Owned Plumbing Business You Can Trust
             </h1>
 
             <p>
-                The Go To Plumber is committed to providing dependable
-                plumbing solutions with honest communication,
-                quality workmanship, and outstanding customer service.
+                At The Go-To Plumber, we believe every customer deserves
+                honest communication, dependable workmanship, and
+                personalized service. As a family-owned business serving
+                North Georgia, we're committed to treating every home and
+                business with the same care and respect we'd expect for our own.
             </p>
 
         </div>
 
+        <div class="service-card about-person-card">
+
+    <div class="about-person-image">
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/Erick.png'
+            ) }}"
+            alt="Erick, owner and lead plumber of The Go-To Plumber"
+        >
+    </div>
+
+    <div class="about-person-content">
+        <h2>Meet Erick</h2>
+
+        <h3>Owner & Lead Plumber</h3>
+
+        <p>
+            Erick is the owner and lead plumber of The Go-To Plumber.
+            With over 10 years of proven plumbing experience, he works
+            directly with homeowners and businesses throughout North
+            Georgia, providing dependable plumbing solutions backed by
+            honest pricing and quality workmanship.
+        </p>
+
+        <p>
+            From leak repairs and drain cleaning to remodeling,
+            water heater installations, new construction, and commercial
+            plumbing, Erick takes pride in doing the job right and making
+            sure every customer feels confident in the work being performed.
+        </p>
+    </div>
+
+</div>
+
+        <div class="service-card about-person-card">
+
+    <div class="about-person-image">
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/Karen.png'
+            ) }}"
+            alt="Karen, office manager of The Go-To Plumber"
+        >
+    </div>
+
+    <div class="about-person-content">
+        <h2>Meet Karen</h2>
+
+        <h3>Office Manager</h3>
+
+        <p>
+            Karen keeps the business running behind the scenes.
+            She manages scheduling, customer communication,
+            estimates, invoices, and helps ensure every customer
+            has a smooth experience from the first phone call to
+            the completion of the job.
+        </p>
+
+        <p>
+            While Erick is out serving customers in the field,
+            Karen keeps everything organized so projects stay on
+            schedule and customers always know what to expect.
+        </p>
+    </div>
+
+</div>
+
         <div class="service-card">
 
             <h2>
-                Our Commitment
+                Why Customers Choose The Go-To Plumber
             </h2>
 
-            <p>
-                Every plumbing project is different, but our goal is
-                always the same: provide dependable service,
-                clear communication, and lasting results.
-
-                Whether it's a routine repair, a new installation,
-                or an unexpected plumbing issue,
-                we take pride in doing the job right.
-            </p>
+            <ul>
+                <li>Family-Owned & Operated</li>
+                <li>10 Years of Proven Experience</li>
+                <li>Residential & Commercial Plumbing</li>
+                <li>Remodeling & New Construction</li>
+                <li>Honest Pricing</li>
+                <li>Quality Workmanship</li>
+                <li>Bilingual Service</li>
+                <li>Quick Response Times</li>
+            </ul>
 
         </div>
 
@@ -50,16 +122,16 @@ About | The Go To Plumber
             <div>
 
                 <p class="section-label">
-                    Need Plumbing Service?
+                    Ready to Get Started?
                 </p>
 
                 <h2>
-                    We're Ready to Help
+                    No Project Is Too Big or Too Small
                 </h2>
 
                 <p>
-                    Contact us today to schedule your service
-                    or request an estimate.
+                    Whether you need a simple repair or a complete plumbing
+                    project, our family is ready to help yours.
                 </p>
 
             </div>

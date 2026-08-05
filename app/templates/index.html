@@ -1,37 +1,158 @@
 {% extends "base.html" %}
 
 {% block title %}
-Home | The Go To Plumber
+Home | The Go-To Plumber
 {% endblock %}
 
 {% block content %}
 
 <section class="hero">
     <div class="hero-content">
-        <p class="hero-label">Trusted local plumbing professionals</p>
 
-        <h1>
-            Reliable plumbing.<br>
-            Exceptional service.
-        </h1>
+        <div class="hero-text">
 
-        <p class="hero-description">
-            Professional residential and commercial plumbing solutions
-            delivered with honest pricing, quality workmanship, and dependable
-            service.
-        </p>
+            <p class="hero-label">
+                Family-Owned Plumbing Service in North Georgia
+            </p>
 
-        <div class="hero-actions">
+            <h1>
+                Reliable Plumbing.<br>
+                Honest Service.
+            </h1>
+
+            <p class="hero-description">
+                The Go-To Plumber provides dependable residential and commercial
+                plumbing services throughout North Georgia. With 10 years of proven
+                experience, Erick delivers quality workmanship on-site while Karen
+                keeps scheduling, customer communication, estimates, and office
+                operations running smoothly.
+            </p>
+
+            <div class="hero-actions">
+                <a
+                    href="{{ url_for('main.request_service') }}"
+                    class="primary-button"
+                >
+                    Request Service
+                </a>
+
+                <a
+                    href="tel:+14702928256"
+                    class="secondary-button"
+                >
+                    Call (470) 292-8256
+                </a>
+            </div>
+
+        </div>
+
+        <div class="hero-image">
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='images/Karen_Erick.png'
+                ) }}"
+                alt="Erick and Karen from The Go-To Plumber"
+            >
+        </div>
+
+    </div>
+</section>
+
+<section class="page-section">
+    <div class="page-container">
+
+        <div class="page-heading">
+            <p class="section-label">Why Choose Us</p>
+
+            <h2>
+                Clean Work. Solid Results.
+            </h2>
+
+            <p>
+                From small repairs to complete plumbing upgrades, our
+                family-owned business is committed to honest pricing,
+                quick response times, clear communication, and dependable
+                service from the first call to the finished job.
+            </p>
+        </div>
+
+        <div class="services-grid">
+
+            <article class="service-card">
+                <h2>10 Years of Experience</h2>
+                <p>
+                    Proven residential and commercial plumbing experience
+                    across repairs, installations, renovations, and new
+                    construction.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Family Owned & Operated</h2>
+                <p>
+                    Erick handles the plumbing work in the field while Karen
+                    manages scheduling, communication, estimates, billing,
+                    and office support.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Honest Pricing</h2>
+                <p>
+                    Clear communication and straightforward service without
+                    unnecessary confusion or surprises.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Bilingual Service</h2>
+                <p>
+                    Friendly, professional communication designed to make the
+                    service process easier for every customer.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Residential & Commercial</h2>
+                <p>
+                    Plumbing support for homeowners, businesses, restaurants,
+                    remodeling projects, and new construction.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <h2>Quick Response</h2>
+                <p>
+                    Prompt follow-up, dependable scheduling, and service
+                    focused on getting your plumbing problem handled quickly.
+                </p>
+            </article>
+
+        </div>
+
+        <div class="page-cta">
+            <div>
+                <p class="section-label">What’s Your Project?</p>
+
+                <h2>
+                    No Project Is Too Big or Too Small
+                </h2>
+
+                <p>
+                    From leaks and repairs to installations, remodeling,
+                    and maintenance, The Go-To Plumber is ready to help.
+                </p>
+            </div>
+
             <a
                 href="{{ url_for('main.request_service') }}"
                 class="primary-button"
             >
-                Request Service
-            </a>
-            <a href="tel:+15555555555" class="secondary-button">
-                Call (555) 555-5555
+                Request Service Today
             </a>
         </div>
+
     </div>
 </section>
 

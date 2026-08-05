@@ -19,7 +19,7 @@ class ServiceRequestForm(FlaskForm):
     )
 
     email = StringField(
-        "Email",
+        "Email Address",
         validators=[DataRequired(), Email(), Length(max=120)]
     )
 
@@ -34,27 +34,50 @@ class ServiceRequestForm(FlaskForm):
     )
 
     service_type = SelectField(
-        "Service Needed",
+        "What type of service do you need?",
         choices=[
             ("", "Select a service"),
+            ("Leak Detection and Repair", "Leak Detection and Repair"),
+            ("Drain Cleaning and Unclogging", "Drain Cleaning and Unclogging"),
+            ("Faucet or Sink Service", "Faucet or Sink Service"),
+            ("Toilet Service", "Toilet Service"),
+            ("Garbage Disposal Service", "Garbage Disposal Service"),
+            ("Water Heater Service", "Water Heater Service"),
+            ("Pipe Repair or Repiping", "Pipe Repair or Repiping"),
+            (
+                "Water Pressure Troubleshooting",
+                "Water Pressure Troubleshooting"
+            ),
+            (
+                "Shower or Bathtub Plumbing",
+                "Shower or Bathtub Plumbing"
+            ),
+            (
+                "Fixture Installation or Upgrade",
+                "Fixture Installation or Upgrade"
+            ),
+            ("Remodeling Plumbing", "Remodeling Plumbing"),
+            (
+                "New Construction Plumbing",
+                "New Construction Plumbing"
+            ),
+            ("Commercial Plumbing", "Commercial Plumbing"),
+            (
+                "Preventative Maintenance",
+                "Preventative Maintenance"
+            ),
             ("Emergency Plumbing", "Emergency Plumbing"),
-            ("Drain Cleaning", "Drain Cleaning"),
-            ("Leak Repair", "Leak Repair"),
-            ("Water Heater", "Water Heater"),
-            ("Toilet or Faucet Repair", "Toilet or Faucet Repair"),
-            ("Pipe Repair", "Pipe Repair"),
-            ("Sewer Line Service", "Sewer Line Service"),
             ("Other", "Other"),
         ],
         validators=[DataRequired()]
     )
 
     description = TextAreaField(
-        "Describe the Problem",
+        "Tell us about your project or plumbing issue",
         validators=[DataRequired(), Length(max=2000)]
     )
 
-    submit = SubmitField("Submit Request")
+    submit = SubmitField("Request Service")
 
 class AdminLoginForm(FlaskForm):
     username = StringField(

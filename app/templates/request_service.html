@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Request Service | The Go To Plumber
+Request Service | The Go-To Plumber
 {% endblock %}
 
 {% block content %}
@@ -9,13 +9,23 @@ Request Service | The Go To Plumber
 <section class="form-section">
     <div class="form-container">
 
-        <p class="section-label">Service Request</p>
+        <p class="section-label">
+            Service Request
+        </p>
 
-        <h1>Tell us how we can help</h1>
+        <h1>
+            Tell Us About Your Project
+        </h1>
 
         <p class="form-intro">
-            Submit the form below and a member of our team will contact you
-            about your plumbing needs.
+            Whether you need a repair, installation, remodeling support,
+            or help with an unexpected plumbing problem, submit the form
+            below and Karen will follow up to discuss your needs,
+            availability, and next steps.
+        </p>
+
+        <p class="form-intro">
+            Quick response. Honest service. Quality workmanship.
         </p>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -33,7 +43,10 @@ Request Service | The Go To Plumber
 
             <div class="form-group">
                 {{ form.name.label }}
-                {{ form.name(class="form-control") }}
+                {{ form.name(
+                    class="form-control",
+                    placeholder="Your full name"
+                ) }}
 
                 {% for error in form.name.errors %}
                     <p class="form-error">{{ error }}</p>
@@ -42,7 +55,10 @@ Request Service | The Go To Plumber
 
             <div class="form-group">
                 {{ form.email.label }}
-                {{ form.email(class="form-control") }}
+                {{ form.email(
+                    class="form-control",
+                    placeholder="you@example.com"
+                ) }}
 
                 {% for error in form.email.errors %}
                     <p class="form-error">{{ error }}</p>
@@ -51,7 +67,10 @@ Request Service | The Go To Plumber
 
             <div class="form-group">
                 {{ form.phone.label }}
-                {{ form.phone(class="form-control") }}
+                {{ form.phone(
+                    class="form-control",
+                    placeholder="(470) 555-5555"
+                ) }}
 
                 {% for error in form.phone.errors %}
                     <p class="form-error">{{ error }}</p>
@@ -60,7 +79,10 @@ Request Service | The Go To Plumber
 
             <div class="form-group">
                 {{ form.address.label }}
-                {{ form.address(class="form-control") }}
+                {{ form.address(
+                    class="form-control",
+                    placeholder="Street address, city, and ZIP code"
+                ) }}
 
                 {% for error in form.address.errors %}
                     <p class="form-error">{{ error }}</p>
@@ -78,9 +100,11 @@ Request Service | The Go To Plumber
 
             <div class="form-group">
                 {{ form.description.label }}
+
                 {{ form.description(
                     class="form-control",
-                    rows="6"
+                    rows="6",
+                    placeholder="Describe the issue, project, or service you need..."
                 ) }}
 
                 {% for error in form.description.errors %}
@@ -88,8 +112,15 @@ Request Service | The Go To Plumber
                 {% endfor %}
             </div>
 
-            {{ form.submit(class="primary-button form-submit") }}
+            {{ form.submit(
+                class="primary-button form-submit"
+            ) }}
         </form>
+
+        <p class="form-intro">
+            Prefer to call? Reach The Go-To Plumber at
+            <a href="tel:+14702928256">(470) 292-8256</a>.
+        </p>
 
     </div>
 </section>

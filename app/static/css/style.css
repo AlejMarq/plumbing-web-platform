@@ -115,15 +115,48 @@ ul {
 /* Hero */
 
 .hero {
-    min-height: calc(100vh - 80px);
-    
+    min-height: auto;
 }
 
 .hero-content {
     width: min(1200px, 92%);
     margin: 0 auto;
-    padding: 100px 0;
-    max-width: 850px;
+    padding: 55px 0 35px;
+    max-width: 1200px;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+    align-items: center;
+    gap: 3rem;
+}
+
+.hero-text {
+    flex: 1;
+}
+
+.hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+
+    /* Adjust this number to move the image */
+    transform: translateY(-10px);
+}
+
+.hero-image img {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+}
+
+.hero-text {
+    min-width: 0;
+}
+
+.hero {
+    padding-bottom: 0;
 }
 
 .hero-label {
@@ -217,10 +250,6 @@ ul {
 
     .hero {
         min-height: calc(100vh - 78px);
-    }
-
-    .hero-content {
-        padding: 75px 0;
     }
 
     .hero-actions {
@@ -1327,4 +1356,30 @@ textarea.form-control {
         text-align: center;
     }
 
+}
+
+.about-person-card {
+    display: grid;
+    grid-template-columns: minmax(220px, 320px) 1fr;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.about-person-image img {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.about-person-content p + p {
+    margin-top: 1rem;
+}
+
+@media (max-width: 750px) {
+    .about-person-card {
+        grid-template-columns: 1fr;
+    }
 }
